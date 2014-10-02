@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# executable [-f] script [interpreter]
+# Create an executable script.  Creates a file with an appropriate shebang and
+# sets its executable bit(s).  If the file exists, its executable bit is set.
+# If the file exists and --force is specified, the file is overwritten and its
+# executable bit is set.
+
+if [ "$1" = '-f' ] || [ "$1" = '--force' ] ; then
+	shift
+else
+	if [ -e "$1" ] ; then
+		chmod +x "$1"
+		exit
+	fi
+fi
+
+if [ -n "$2" ] ; then
+	exec=$(which env | sed 's/ /\\ /g')" $2"
+else
+	exec="$SHELL"
+fi
+
+echo \#\!"$exec" > "$1"
+chmod +x "$1"

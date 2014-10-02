@@ -1,0 +1,69 @@
+#!/bin/bash
+
+. .bashrc
+
+export PATH="$PATH:/PATH/TO/jr-config/bin"
+
+git_subdir() {
+    BASE=$(git rev-parse --show-toplevel 2>/dev/null)
+
+    if [[ -n "$BASE" ]] ; then
+        SUB="\[\e[38;5;38m\]${PWD#$BASE}"
+    else
+        BASE="$PWD"
+    fi
+
+    echo "\[\e[38;5;25m\]$(tildefy $BASE)$SUB\[\e[0m\]"
+}
+
+tildefy() {
+    if [[ "$1" =~ ^"$HOME"(/|$) ]] ; then
+        echo "~${1#$HOME}"
+    else
+        echo "$1"
+    fi
+}
+
+jobssum() {
+    local stopped=$(jobs -sp | wc -l | sed -e 's/^ *//' -e 's/ *$//')
+    local running=$(jobs -rp | wc -l | sed -e 's/^ *//' -e 's/ *$//')
+    if ((running+stopped)) ; then
+        local out=
+        if ((running)) ; then
+            out=$out$running
+        fi
+        if ((running)) && ((stopped)) ; then
+            out=$out,
+        fi
+        if ((stopped)) ; then
+            out=$out'\[\e[38;5;88m\]'$stopped'\[\e[38;5;242m\]'
+        fi
+        echo '\[\e[38;5;242m\]'[$out]'\[\e[0m\]'
+    fi
+}
+
+fresh_line() {
+    exec < /dev/tty
+    local oldstty=$(stty -g)
+    stty raw -echo min 0
+    echo -en "\033[6n" > /dev/tty
+    local pos
+    IFS=';' read -s -r -d R -a pos
+    stty $oldstty
+    if [ "$((${pos[1]} - 1))" != 0 ]; then
+        echo \n
+    fi
+}
+
+alias j=jobs
+
+. /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+. /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
+
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_SHOWUPSTREAM=1
+GIT_PS1_SHOWCOLORHINTS=1
+PROMPT_COMMAND='__git_ps1 "$(jobssum)\[\e[1;38;5;22m\]\u\[\e[0m\] $(git_subdir)" "\\\$ " " %s"'
+
+complete -o default -W "3.dev-app.janraincapture.com 1.app.janraincapture.com pse.janrain.com 2.test-app.janraincapture.com 1.eu-app.janraincapture.com 1.au-app.janraincapture.com customer-dev.janrain.com capture-data-migration.janrain.com capture-data-migration-eu.janrain.com build.janraincapture.com capture-data-migration-au.janrain.com ubu1.local waldo.janrain.com" ssh sftp rby rtx

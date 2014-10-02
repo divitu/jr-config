@@ -1,0 +1,48 @@
+[color]
+	interactive = true
+	ui = true
+
+[push]
+	default = tracking
+
+[core]
+	excludesfile = /PATH/TO/jr-config/gitignore-global
+	pager = less -+$LESS -R
+
+[alias]
+	pff = pull --ff-only
+	pr = pull --rebase
+	lb = branch -a
+	ci = commit
+	ca = commit --amend
+	can = commit --amend --no-edit
+	cb = checkout -b
+	co = checkout
+	rb = rebase
+	unstash = stash pop
+	mvb = branch -m
+	mff = merge --ff-only
+	mci = merge --no-ff --no-edit
+	l = log --pretty=format:'%C(88 bold)%h%Creset -%C(136)%d%Creset %s %C(35)%cr by %an%Creset' --abbrev-commit --date=relative
+	l2 = log --format=format:'%C(160)%h%Creset  %C(93)%aD%C(reset) %C(33)[%ar]%Creset %C(166)%d%C(reset)%n''         %s  %C(40)%an%C(reset)' --abbrev-commit --decorate
+[merge]
+	defaultToUpstream = true
+	tool = p4merge
+[diff]
+	tool = p4merge
+[pager]
+	show = false
+[column]
+	ui = auto
+[color "branch"]
+	current = cyan bold
+	remote = 244
+[color "diff"]
+	meta = white bold
+	frag = blue bold
+	old = red
+	new = green
+[color "status"]
+	added = 27
+	changed = 166
+	untracked = 244

@@ -1,0 +1,122 @@
+#!/bin/bash
+
+usage() {
+    NAME="$(basename "$0" | sed 's/-/ /')"
+    cat <<EOF
+$NAME: remove git branch
+  $NAME [-r|-R] [-U] BRANCH
+  $NAME -r LOCAL_BRANCH REMOTE_BRANCH
+  $NAME -h
+EOF
+}
+
+usage-full() {
+    NAME="$(basename "$0" | sed 's/-/ /')"
+    cat <<EOF
+$NAME: remove git branch
+
+Usage:
+  $NAME [-r|-R] [-U] BRANCH
+  $NAME -r LOCAL_BRANCH REMOTE_BRANCH
+  $NAME -h
+
+If neither -r nor -R is specified, delete local BRANCH.  If -r is specified, but
+not -U, also delete BRANCH's upstream branch.  If -r and -U are specified, also
+delete remote BRANCH instead.
+
+If -R is specified, but not -U, delete BRANCH's upstream branch.  If -R and -U
+are specified, delete remote BRANCH.
+
+If LOCAL_BRANCH and REMOTE_BRANCH are specified, delete both.
+
+Normal usage is $NAME -r foo as a shortcut for:
+  git branch -D foo
+  git push origin --delete origin/foo
+(This assumes that foo tracks origin/foo.)
+EOF
+}
+
+DEL_LOCAL=true
+DEL_REMOTE=false
+GET_UPSTREAM=true
+
+while getopts ":rRUh" opt; do
+    case $opt in
+        r)
+            DEL_REMOTE=true
+            ;;
+        R)
+            DEL_LOCAL=false
+            DEL_REMOTE=true
+            ;;
+        U)
+            GET_UPSTREAM=false
+            ;;
+        h)
+            usage-full
+            exit 0
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+shift $(($OPTIND-1))
+
+if [ -z "$1" ] ; then
+    echo "Missing required parameter" >&2
+    usage
+    exit 1
+fi
+
+LOCAL="$1"
+REMOTE="$1"
+
+if $DEL_REMOTE && $DEL_LOCAL ; then
+    if [ -n "$3" ] ; then
+        echo "Too many parameters" >&2
+        usage
+        exit 1
+    elif [ -n "$2" ] ; then
+        REMOTE="$2"
+        GET_UPSTREAM=false
+    fi
+else
+    if [ -n "$2" ] ; then
+        echo "Too many parameters" >&2
+        usage
+        exit 1
+    fi
+fi
+
+if $DEL_LOCAL || ($DEL_REMOTE && $GET_UPSTREAM) ; then
+    if ! git show-ref --verify --quiet "refs/heads/$LOCAL" ; then
+        echo "Branch '$LOCAL' not found"
+        exit 1
+    fi
+fi
+
+if $DEL_REMOTE ; then
+    if $GET_UPSTREAM ; then
+        REMOTE="$(git for-each-ref --format='%(upstream:short)' "refs/heads/$REMOTE")"
+        if [ -z "$REMOTE" ] ; then
+            echo "No remote found for branch '$LOCAL'"
+            exit 1
+        fi
+    fi
+fi
+
+if $DEL_LOCAL ; then
+    git branch -D "$LOCAL"
+fi
+
+if $DEL_REMOTE ; then
+    if [ -n "$REMOTE" ] ; then
+        REPOSITORY="$(echo "$REMOTE" | cut -d/ -f1)"
+        REFSPEC="$(echo "$REMOTE" | cut -d/ -f2-)"
+    fi
+    git push $REPOSITORY --delete "$REFSPEC"
+fi

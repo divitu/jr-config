@@ -1,0 +1,28 @@
+{
+	"SublimeLinter":
+	{
+		"@python": 2.7
+	},
+	"close_windows_when_empty": true,
+	"color_scheme": "Packages/User/Solarized vH (SL).tmTheme",
+	"copy_with_empty_selection": false,
+	"ensure_newline_at_eof_on_save": true,
+	"font_size": 12.0,
+	"highlight_line": true,
+	"ignored_packages":
+	[
+		"BracketHighlighter",
+		"sublimelint",
+		"Vintage"
+	],
+	"preview_on_click": false,
+	"python_interpreter": "/Users/colin/.virtualenvs/main/bin/python",
+	"rulers":
+	[
+		80,
+		120
+	],
+	"tab_size": 4,
+	"translate_tabs_to_spaces": false,
+	"word_wrap": false
+}

@@ -1,0 +1,86 @@
+--- /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt-orig.sh	2014-04-23 21:01:19.000000000 -0700
++++ /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh	2014-08-21 23:27:48.000000000 -0700
+@@ -218,43 +218,41 @@
+ # to build a gitstring.
+ __git_ps1_colorize_gitstring ()
+ {
+-	if [[ -n ${ZSH_VERSION-} ]]; then
+-		local c_red='%F{red}'
+-		local c_green='%F{green}'
+-		local c_lblue='%F{blue}'
+-		local c_clear='%f'
+-	else
+-		# Using \[ and \] around colors is necessary to prevent
+-		# issues with command line editing/browsing/completion!
+-		local c_red='\[\e[31m\]'
+-		local c_green='\[\e[32m\]'
+-		local c_lblue='\[\e[1;34m\]'
+-		local c_clear='\[\e[0m\]'
+-	fi
+-	local bad_color=$c_red
+-	local ok_color=$c_green
+-	local flags_color="$c_lblue"
++	local c_red='\[\e[38;5;124m\]'
++	local c_orange='\[\e[38;5;166m\]'
++	local c_yellow='\[\e[38;5;190m\]'
++	local c_green='\[\e[38;5;34m\]'
++	local c_blue='\[\e[38;5;27m\]'
++	local c_gray='\[\e[38;5;244m\]'
++	local c_clear='\[\e[0m\]'
++
++	local col_attached="$c_green"
++	local col_detached="$c_red"
++	local col_modified="$c_orange"
++	local col_index="$c_blue"
++	local col_stash="$c_yellow"
++	local col_untracked="$c_gray"
+ 
+-	local branch_color=""
++	local col_branch=""
+ 	if [ $detached = no ]; then
+-		branch_color="$ok_color"
++		col_branch="$col_attached"
+ 	else
+-		branch_color="$bad_color"
++		col_branch="$col_detached"
+ 	fi
+-	c="$branch_color$c"
++	c="$col_branch$c"
+ 
+ 	z="$c_clear$z"
+ 	if [ "$w" = "*" ]; then
+-		w="$bad_color$w"
++		w="$col_modified$w"
+ 	fi
+ 	if [ -n "$i" ]; then
+-		i="$ok_color$i"
++		i="$col_index$i"
+ 	fi
+ 	if [ -n "$s" ]; then
+-		s="$flags_color$s"
++		s="$col_stash$s"
+ 	fi
+ 	if [ -n "$u" ]; then
+-		u="$bad_color$u"
++		u="$col_untracked$u"
+ 	fi
+ 	r="$c_clear$r"
+ }
+@@ -431,7 +429,7 @@
+ 		fi
+ 	fi
+ 
+-	local z="${GIT_PS1_STATESEPARATOR-" "}"
++	local z=" "
+ 
+ 	# NO color option unless in PROMPT_COMMAND mode
+ 	if [ $pcmode = yes ] && [ -n "${GIT_PS1_SHOWCOLORHINTS-}" ]; then
+@@ -439,7 +437,7 @@
+ 	fi
+ 
+ 	local f="$w$i$s$u"
+-	local gitstring="$c${b##refs/heads/}${f:+$z$f}$r$p"
++	local gitstring="$c${b##refs/heads/}$z$f$r$p"
+ 
+ 	if [ $pcmode = yes ]; then
+ 		if [ "${__git_printf_supports_v-}" != yes ]; then
