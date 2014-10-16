@@ -1,6 +1,6 @@
---- /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt-orig.sh	2014-04-23 21:01:19.000000000 -0700
-+++ /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh	2014-08-21 23:27:48.000000000 -0700
-@@ -218,43 +218,41 @@
+--- /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh.orig	2014-09-27 14:55:52.000000000 -0700
++++ /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh	2014-10-15 13:35:15.000000000 -0700
+@@ -229,43 +229,41 @@
  # to build a gitstring.
  __git_ps1_colorize_gitstring ()
  {
@@ -66,7 +66,7 @@
  	fi
  	r="$c_clear$r"
  }
-@@ -431,7 +429,7 @@
+@@ -442,7 +440,7 @@
  		fi
  	fi
  
@@ -75,12 +75,12 @@
  
  	# NO color option unless in PROMPT_COMMAND mode
  	if [ $pcmode = yes ] && [ -n "${GIT_PS1_SHOWCOLORHINTS-}" ]; then
-@@ -439,7 +437,7 @@
+@@ -469,7 +467,7 @@
  	fi
  
  	local f="$w$i$s$u"
--	local gitstring="$c${b##refs/heads/}${f:+$z$f}$r$p"
-+	local gitstring="$c${b##refs/heads/}$z$f$r$p"
+-	local gitstring="$c$b${f:+$z$f}$r$p"
++ 	local gitstring="$c$b$z$f$r$p"
  
  	if [ $pcmode = yes ]; then
  		if [ "${__git_printf_supports_v-}" != yes ]; then
