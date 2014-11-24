@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [ -z "$1" ] ; then
-	ARGS=$(git rev-parse --show-toplevel 2>/dev/null)
-else
-	ARGS="$@"
-fi
-
-open -a SourceTree "$ARGS"

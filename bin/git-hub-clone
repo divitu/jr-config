@@ -1,5 +1,0 @@
-#!/bin/sh
-
-user="$1" && shift
-repo="$1" && shift
-git clone git@github.com:"$user"/"$repo".git "$@"

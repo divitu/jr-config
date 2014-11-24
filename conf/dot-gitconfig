@@ -1,6 +1,7 @@
 [color]
 	interactive = true
 	ui = true
+	ignorecase = true
 
 [push]
 	default = tracking
@@ -16,15 +17,21 @@
 	ci = commit
 	ca = commit --amend
 	can = commit --amend --no-edit
-	cb = checkout -b
 	co = checkout
+	cb = checkout -b
+	cbo = !sh -c 'git checkout -b "$1" \\&\\& git push -u origin "$1${2+:$2}"' --
 	rb = rebase
 	unstash = stash pop
 	mvb = branch -m
 	mff = merge --ff-only
 	mci = merge --no-ff --no-edit
+	hub-clone = !sh -c 'git clone git@github.com:"$1"/"$2".git "${@:3}"' --
+	jc = !sh -c 'git clone git@github.com:janrain/"$1".git "${@:2}"' --
+	browse = !sh -c 'open -a SourceTree "${@-$(git rev-parse --show-toplevel 2>/dev/null)}"' --
+	last-fetch = !base=$(git rev-parse --show-toplevel)/.git/objects/ stat -f '%Sm' -t "%B %d, %Y %I:%M %p" $(ls -ct "$base" | head -n 1) | sed 's/ 0/ /g'
 	l = log --pretty=format:'%C(88 bold)%h%Creset -%C(136)%d%Creset %s %C(35)%cr by %an%Creset' --abbrev-commit --date=relative
 	l2 = log --format=format:'%C(160)%h%Creset  %C(93)%aD%C(reset) %C(33)[%ar]%Creset %C(166)%d%C(reset)%n''         %s  %C(40)%an%C(reset)' --abbrev-commit --decorate
+	l3 = log --format=format:'%C(160)%h%Creset  %C(93)%aD%C(reset) %C(33)[%ar]%Creset %C(166)%d%C(reset)%n''         %s  %C(40)%an%C(reset)%n' --abbrev-commit --decorate
 [merge]
 	defaultToUpstream = true
 	tool = p4merge

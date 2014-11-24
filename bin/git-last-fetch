@@ -1,5 +1,0 @@
-#!/bin/bash
-
-base=$(git rev-parse --show-toplevel)/.git/objects/
-f=$(ls -ct "$base" | head -n 1)
-stat -f '%Sm' -t "%B %d, %Y %I:%M %p" "$base$f" | sed 's/ 0/ /g'

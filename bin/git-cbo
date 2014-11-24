@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [ -n "$2" ] ; then
-	tracking="$1:$2"
-else
-	tracking="$1"
-fi
-git checkout -b "$1" \
-&& git push -u origin "$tracking"
