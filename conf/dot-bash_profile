@@ -43,9 +43,12 @@ jobs_sum() {
 }
 
 alias j=jobs
+alias dash="apid-cli -c dashboard-metadata"
 
 . /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
 . /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
+stty -ixon
+
 
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
@@ -53,6 +56,6 @@ GIT_PS1_SHOWUPSTREAM=1
 GIT_PS1_SHOWCOLORHINTS=1
 PROMPT_COMMAND='__git_ps1 "$(jobs_sum)\[\e[1;38;5;22m\]\u\[\e[0m\] $(git_subdir)" "\\\$ " " %s"'
 
-complete -o default -W "3.dev-app.janraincapture.com 1.app.janraincapture.com pse.janrain.com 2.test-app.janraincapture.com 1.eu-app.janraincapture.com 1.au-app.janraincapture.com customer-dev.janrain.com capture-data-migration.janrain.com capture-data-migration-eu.janrain.com build.janraincapture.com capture-data-migration-au.janrain.com ubu1.local waldo.janrain.com" ssh sftp rby rtx
+complete -o default -W "logs.janrain.com logs-eu.janrain.com 3.dev-app.janraincapture.com 1.app.janraincapture.com pse.janrain.com 2.test-app.janraincapture.com 1.eu-app.janraincapture.com 1.au-app.janraincapture.com customer-dev.janrain.com capture-data-migration.janrain.com capture-data-migration-eu.janrain.com build.janraincapture.com capture-data-migration-au.janrain.com ubu1.local waldo.janrain.com jump-cn.janrain.com 1-app-prod.cn.janrain.com logs-prod.cn.janrain.com" ssh sftp
 complete -o default -W "right bottom left" mvdock
 complete -o default -W "YES NO" showhidden

@@ -1,7 +1,6 @@
 [color]
 	interactive = true
 	ui = true
-	ignorecase = true
 
 [push]
 	default = tracking
@@ -9,22 +8,28 @@
 [core]
 	excludesfile = /PATH/TO/jr-config/gitignore-global
 	pager = less -+$LESS -R
+	ignorecase = true
 
 [alias]
 	pff = pull --ff-only
 	pr = pull --rebase
 	lb = branch -a
+	a = add -A
 	ci = commit
 	ca = commit --amend
+	cn = commit --no-edit
 	can = commit --amend --no-edit
 	co = checkout
 	cb = checkout -b
-	cbo = !sh -c 'git checkout -b "$1" \\&\\& git push -u origin "$1${2+:$2}"' --
+	cbo = !sh -c 'git checkout -b "$1" && git push -u origin "$1${2+:$2}"' --
 	rb = rebase
 	unstash = stash pop
 	mvb = branch -m
 	mff = merge --ff-only
 	mci = merge --no-ff --no-edit
+	mn = merge --no-edit
+	ru = reset @{u}
+	rhu = reset --hard @{u}
 	hub-clone = !sh -c 'git clone git@github.com:"$1"/"$2".git "${@:3}"' --
 	jc = !sh -c 'git clone git@github.com:janrain/"$1".git "${@:2}"' --
 	browse = !sh -c 'open -a SourceTree "${@-$(git rev-parse --show-toplevel 2>/dev/null)}"' --
