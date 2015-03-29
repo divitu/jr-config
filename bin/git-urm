@@ -1,3 +1,5 @@
 #!/bin/bash
 
+set -euo pipefail
+
 git reset HEAD "$1" && git checkout -- "$1"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 usage() {
     NAME="$(basename "$0" | sed 's/-/ /')"
     cat <<EOF
@@ -66,7 +68,7 @@ done
 
 shift $(($OPTIND-1))
 
-if [ -z "$1" ] ; then
+if [ -z "${1:-}" ] ; then
     echo "Missing required parameter" >&2
     usage
     exit 1
@@ -76,16 +78,16 @@ LOCAL="$1"
 REMOTE="$1"
 
 if $DEL_REMOTE && $DEL_LOCAL ; then
-    if [ -n "$3" ] ; then
+    if [ -n "${3:-}" ] ; then
         echo "Too many parameters" >&2
         usage
         exit 1
-    elif [ -n "$2" ] ; then
+    elif [ -n "${2:-}" ] ; then
         REMOTE="$2"
         GET_UPSTREAM=false
     fi
 else
-    if [ -n "$2" ] ; then
+    if [ -n "${2:-}" ] ; then
         echo "Too many parameters" >&2
         usage
         exit 1

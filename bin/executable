@@ -6,6 +6,13 @@
 # If the file exists and --force is specified, the file is overwritten and its
 # executable bit is set.
 
+set -euo pipefail
+
+if [ -z "${1:-}" ] ; then
+	echo usage: executable FILE [INTERPRETER]
+	exit
+fi
+
 if [ "$1" = '-f' ] || [ "$1" = '--force' ] ; then
 	shift
 else
@@ -15,7 +22,7 @@ else
 	fi
 fi
 
-if [ -n "$2" ] ; then
+if [ -n "${2:-}" ] ; then
 	exec=$(which env | sed 's/ /\\ /g')" $2"
 else
 	exec="$SHELL"

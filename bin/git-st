@@ -1,12 +1,14 @@
 #!/bin/bash
 
+set -euo pipefail
+
 COLUMNS=true
 COL_ARGS="--padding=3 --mode=dense"
 
-if [ "$1" == '-c' ] ; then
+if [ "${1:-}" == '-c' ] ; then
 	COLUMNS=false
 	shift
-elif [ "$1" == '-l' ] ; then
+elif [ "${1:-}" == '-l' ] ; then
 	COL_ARGS=
 	shift
 fi
