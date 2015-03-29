@@ -54,3 +54,5 @@ GIT_PS1_SHOWCOLORHINTS=1
 PROMPT_COMMAND='__git_ps1 "$(jobs_sum)\[\e[1;38;5;22m\]\u\[\e[0m\] $(git_subdir)" "\\\$ " " %s"'
 
 complete -o default -W "3.dev-app.janraincapture.com 1.app.janraincapture.com pse.janrain.com 2.test-app.janraincapture.com 1.eu-app.janraincapture.com 1.au-app.janraincapture.com customer-dev.janrain.com capture-data-migration.janrain.com capture-data-migration-eu.janrain.com build.janraincapture.com capture-data-migration-au.janrain.com ubu1.local waldo.janrain.com" ssh sftp rby rtx
+complete -o default -W "right bottom left" mvdock
+complete -o default -W "YES NO" showhidden
