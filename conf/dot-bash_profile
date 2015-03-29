@@ -2,13 +2,13 @@
 
 . .bashrc
 
-export PATH="$PATH:/PATH/TO/jr-config/bin"
+export PATH="$PATH:/PATH/TO/jr-config/build/bin:/PATH/TO/jr-config/bin"
 
 git_subdir() {
     BASE=$(git rev-parse --show-toplevel 2>/dev/null)
 
     if [[ -n "$BASE" ]] ; then
-        SUB="\[\e[38;5;38m\]${PWD#$BASE}"
+        SUB="\[\e[38;5;38m\]$(rmpre "$PWD" "$BASE")"
     else
         BASE="$PWD"
     fi
@@ -18,7 +18,7 @@ git_subdir() {
 
 tildefy() {
     if [[ "$1" =~ ^"$HOME"(/|$) ]] ; then
-        echo "~${1#$HOME}"
+        echo "~$(rmpre "$1" "$HOME")"
     else
         echo "$1"
     fi

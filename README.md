@@ -1,3 +1,5 @@
+    make
+
 Mavericks:
 
 	sudo patch /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh conf/git-prompt.sh.patch
