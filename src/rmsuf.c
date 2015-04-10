@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv) {
 	if (argc < 2) {
-		fprintf(stderr, "usage: rmsuf <string> <prefix>\n");
+		fprintf(stderr, "usage: rmsuf <string> <suffix>\n");
 		return 1;
 	}
 	size_t lenstr = strlen(argv[1]);
