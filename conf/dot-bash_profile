@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. .bashrc
-
 export PATH="$PATH:/PATH/TO/jr-config/build/bin:/PATH/TO/jr-config/bin"
 
 git_subdir() {
