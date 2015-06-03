@@ -6,7 +6,7 @@
 	default = tracking
 
 [core]
-	excludesfile = /PATH/TO/jr-config/gitignore-global
+	excludesfile = /PATH/TO/jr-config/conf/gitignore-global
 	pager = less -+$LESS -R
 	ignorecase = true
 
