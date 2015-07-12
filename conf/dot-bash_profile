@@ -1,6 +1,9 @@
 #!/bin/bash
 
-export PATH="$PATH:/PATH/TO/jr-config/build/bin:/PATH/TO/jr-config/bin"
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/
+export PATH=${PATH}:/usr/local/mysql/bin
+
+export PATH="$PATH:/Users/skhaosanga/Documents/github/jr-config/build/bin:/Users/skhaosanga/Documents/github/jr-config/bin"
 
 git_subdir() {
     BASE=$(git rev-parse --show-toplevel 2>/dev/null)

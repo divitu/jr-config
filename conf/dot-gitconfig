@@ -1,3 +1,12 @@
+
+[user]
+	name = Souriya Khaosanga
+	email = souriya.khaosanga@gmail.com
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+
 [color]
 	interactive = true
 	ui = true
@@ -6,7 +15,7 @@
 	default = tracking
 
 [core]
-	excludesfile = /PATH/TO/jr-config/conf/gitignore-global
+	excludesfile = /Users/skhaosanga/Documents/github/jr-config/conf/gitignore-global
 	pager = less -+$LESS -R
 	ignorecase = true
 
