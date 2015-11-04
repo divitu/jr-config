@@ -19,6 +19,16 @@ You'll immediately have access to all the Git aliases and configuration.  To get
 the Bash configuration, close and reopen all your shells, or run `bash -l` to
 spawn a new subshell.
 
+Updating Git prompt
+===================
+
+If conf/git-prompt.sh.patch has changed, run the following to get the new
+changes:
+
+	sudo mv /usr/local/etc/bash_completion.d/git-prompt.sh.orig /usr/local/etc/bash_completion.d/git-prompt.sh
+	sudo patch /usr/local/etc/bash_completion.d/git-prompt.sh conf/git-prompt.sh.patch
+	source /usr/local/etc/bash_completion.d/git-prompt.sh
+
 But I Don't Like It
 ===================
 

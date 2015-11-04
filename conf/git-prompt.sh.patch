@@ -1,6 +1,14 @@
---- /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh.orig	2014-09-27 14:55:52.000000000 -0700
-+++ /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh	2014-10-15 13:35:15.000000000 -0700
-@@ -229,43 +229,41 @@
+--- /usr/local/etc/bash_completion.d/git-prompt.sh.orig	2015-02-05 13:40:08.000000000 -0800
++++ /usr/local/etc/bash_completion.d/git-prompt.sh	2015-11-04 08:10:50.000000000 -0800
+@@ -224,6 +224,7 @@
+ 			fi
+ 		fi
+ 	fi
++	p="$p($(show-date-relative $(git last-fetch)))"
+ 
+ }
+ 
+@@ -232,43 +233,41 @@
  # to build a gitstring.
  __git_ps1_colorize_gitstring ()
  {
@@ -66,7 +74,7 @@
  	fi
  	r="$c_clear$r"
  }
-@@ -442,7 +440,7 @@
+@@ -497,7 +496,7 @@
  		fi
  	fi
  
@@ -75,7 +83,7 @@
  
  	# NO color option unless in PROMPT_COMMAND mode
  	if [ $pcmode = yes ] && [ -n "${GIT_PS1_SHOWCOLORHINTS-}" ]; then
-@@ -469,7 +467,7 @@
+@@ -511,7 +510,7 @@
  	fi
  
  	local f="$w$i$s$u"

@@ -1,0 +1,96 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+
+from collections import namedtuple
+import datetime
+import dateutil.parser
+import sys
+
+# logic borrowed from show_date_relative()
+# https://github.com/git/git/blob/master/date.c
+
+def _fmt(fmt, num, sing, plur=None):
+    if plur is None:
+        plur = sing + "s"
+    if num == 1:
+        return fmt.format(num, sing)
+    else:
+        return fmt.format(num, plur)
+
+def _fmtw(fmt, num, term, plur):
+    if plur:
+        return _fmt(fmt, num, term)
+    else:
+        return _fmt(fmt, num, term, term)
+
+def div_round(dividend, divisor):
+    return int((dividend / divisor) + 0.5)
+
+Scheme = namedtuple('Scheme', 'fmt fmt2 plur future sec min hr dy wk mo yr')
+
+long = Scheme(fmt="{:d} {} ago",
+              fmt2="{:d} {}, ",
+              plur=True,
+              future="in the future",
+              sec="second",
+              min="minute",
+              hr="hour",
+              dy="day",
+              wk="week",
+              mo="month",
+              yr="year")
+
+short = Scheme(fmt="{:d}{}",
+               fmt2="{:d}{}+",
+               plur=False,
+               future="FUT?",
+               sec="s",
+               min="m",
+               hr="h",
+               dy="d",
+               wk="w",
+               mo="mo",
+               yr="yr")
+
+def relativedelta_human(d, now=None, scheme=long):
+    if now is None:
+        now = datetime.datetime.now(d.tzinfo)
+    if d > now:
+        return scheme.future
+    diff = now - d
+    sec = diff.seconds + (86400 * diff.days)
+    if sec < 90:
+        return _fmtw(scheme.fmt, sec, scheme.sec, scheme.plur)
+    min = div_round(sec, 60)
+    if min < 90:
+        return _fmtw(scheme.fmt, min, scheme.min, scheme.plur)
+    hr = div_round(min, 60)
+    if hr < 36:
+        return _fmtw(scheme.fmt, hr, scheme.hr, scheme.plur)
+    dy = div_round(hr, 24)
+    if dy < 14:
+        return _fmtw(scheme.fmt, dy, scheme.dy, scheme.plur)
+    wk = div_round(dy, 7)
+    if wk <= 10:
+        return _fmtw(scheme.fmt, wk, scheme.wk, scheme.plur)
+    mo = div_round(dy, 30)
+    if mo <= 12:
+        return _fmtw(scheme.fmt, mo, scheme.mo, scheme.plur)
+    if dy < 1825:
+        mo = (dy * 12 * 2 + 365) / (365 * 2)
+        yr = mo / 12
+        mo = mo % 12
+        ypart = _fmtw(scheme.fmt2, yr, scheme.yr, scheme.plur)
+        mpart = _fmtw(scheme.fmt, mo, scheme.mo, scheme.plur)
+        return ypart + mpart
+    return _fmtw(scheme.fmt, div_round(dy, 365.2425), scheme.yr, scheme.plur)
+
+if __name__ == '__main__':
+    input = " ".join(sys.argv[1:])
+    try:
+        d = dateutil.parser.parse(input)
+    except ValueError:
+        print("error: could not parse date/time '{}'".format(input), file=sys.stderr)
+        sys.exit(1)
+    print(relativedelta_human(d, scheme=short))
