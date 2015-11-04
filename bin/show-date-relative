@@ -78,9 +78,8 @@ def relativedelta_human(d, now=None, scheme=long):
     if mo <= 12:
         return _fmtw(scheme.fmt, mo, scheme.mo, scheme.plur)
     if dy < 1825:
-        mo = (dy * 12 * 2 + 365) / (365 * 2)
-        yr = mo / 12
-        mo = mo % 12
+        mo = div_round(dy, 365.2425 / 12)
+        yr, mo = divmod(mo, 12)
         ypart = _fmtw(scheme.fmt2, yr, scheme.yr, scheme.plur)
         mpart = _fmtw(scheme.fmt, mo, scheme.mo, scheme.plur)
         return ypart + mpart
