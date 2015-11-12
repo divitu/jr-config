@@ -35,7 +35,7 @@ Updating from Upstream
 First-time configuration
 ------------------------
 
-    git remote add upstream git@github.com:divitu/
+    git remote add upstream git@github.com:divitu/jr-config.git
 
 Update
 ------
@@ -44,5 +44,5 @@ Update
 
 If `master` did not advance, there is nothing to update.  Otherwise:
 
-    git checkout master  #-- if you're not already on master
-    git merge --no-edit --no-ff upstream/master
+    git checkout master  # skip if you're already on master
+    git merge --no-edit upstream/master
