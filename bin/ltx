@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -euo pipefail
+
+unset TMUX
+
+# -CC Start in command mode; no echo
+# new Create new session
+# -A  ...or attach to existing session
+# -s  Specify session name
+tmux -CC new -A -s iterm
+tx_exit=$?
+
+if [ $tx_exit -eq 0 ]; then
+	clear
+	echo local tmux end
+else
+	echo local tmux exit $by_exit
+fi

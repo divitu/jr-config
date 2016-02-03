@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+	echo "usage: rtx HOST"
+	exit 1
+fi
+
+# -A  Forward SSH Agent
+# -t  Force TTY allocation
+# -CC Start in command mode; no echo
+# new Create new session
+# -A  ...or attach to existing session
+# -s  Specify session name
+ssh -At "$1" tmux -CC new -A -s iterm
+ssh_exit=$?
+
+if [ $ssh_exit -eq 0 ]; then
+	echo [$1] tmux end
+else
+	echo [$1] tmux exit $ssh_exit
+fi
