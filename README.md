@@ -11,7 +11,8 @@ whole `conf` directory.  Then do the following from your home directory:
 	mv .gitconfig .gitconfig.old
 	ln -s /PATH/TO/jr-config/conf/dot-bash_profile .bash_profile
 	cp /PATH/TO/jr-config/conf/dot-gitconfig .gitconfig
-    brew install git bash-completion
+	brew install git bash-completion
+	cd /PATH/TO/jr-config
 	make
 	patch /usr/local/etc/bash_completion.d/git-prompt.sh conf/git-prompt.sh.patch
 
