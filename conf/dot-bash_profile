@@ -43,10 +43,10 @@ jobs_sum() {
 alias j=jobs
 alias dash="apid-cli -c dashboard-metadata"
 
-. /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
-. /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
-stty -ixon
+. $(brew --prefix)/etc/bash_completion
+. $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
 
+stty -ixon
 
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
