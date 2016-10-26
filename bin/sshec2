@@ -40,11 +40,11 @@ if $verbose ; then
 fi
 
 if [ $vpc == null ] ; then
-	ssh $identity $ip $@
+	ssh $identity -A $ip $@
 else
-	vpcip=$(aws ec2 describe-instances $profile $region --filter Name=tag:group,Values=jump Name=vpc-id,Values=$vpc| jq -r '.Reservations[0].Instances[0].PublicIpAddress')
+	vpcip=$(aws ec2 describe-instances $profile $region --filter Name=tag:group,Values=jump Name=vpc-id,Values=$vpc | jq -r '.Reservations[0].Instances[0].PublicIpAddress')
 	if $verbose ; then
 		echo connecting via $vpcip
 	fi
-	ssh $identity -At $vpcip ssh $ip $@
+	ssh $identity -At $vpcip ssh -A $ip $@
 fi
