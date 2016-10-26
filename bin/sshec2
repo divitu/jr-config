@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+verbose=false
+profile=
+region=
+identity=
+while [[ "$1" == -* ]] ; do
+	if [ "$1" == -h ] ; then
+		echo "usage: $(basename $0) [-p PROFILE] [-r REGION] [-v] instance-id"
+		exit
+	elif [ "$1" == -p ] ; then
+		if [[ "$2" == *-cn ]] ; then
+			identity='-i ~/.ssh/china_rsa'
+		fi
+		profile="--profile $2"
+		shift ; shift
+	elif [ "$1" == -r ] ; then
+		if [[ "$2" == cn-* ]] ; then
+			identity='-i ~/.ssh/china_rsa'
+		fi
+		region="--region $2"
+		shift ; shift
+	elif [ "$1" == -v ] ; then
+		verbose=true
+		shift
+	else
+		echo "$(basename $0): unrecognized argument $1" >&2
+		exit 1
+	fi
+done
+
+id="$1"
+shift
+
+read -r ip vpc <<<"$(aws ec2 describe-instances $profile $region --filter Name=instance-id,Values=$id | jq -r '.Reservations[0].Instances[0] | "\(.PrivateIpAddress) \(.VpcId)"')"
+if $verbose ; then
+	echo connecting to $ip
+fi
+
+if [ $vpc == null ] ; then
+	ssh $identity $ip $@
+else
+	vpcip=$(aws ec2 describe-instances $profile $region --filter Name=tag:group,Values=jump Name=vpc-id,Values=$vpc| jq -r '.Reservations[0].Instances[0].PublicIpAddress')
+	if $verbose ; then
+		echo connecting via $vpcip
+	fi
+	ssh $identity -At $vpcip ssh $ip $@
+fi
